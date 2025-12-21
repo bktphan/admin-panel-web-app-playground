@@ -30,7 +30,7 @@ const openEditModal = (product: Product) => {
 }
 
 const handleSave = () => {
-  if (!form.name || form.price < 0) return alert('กรุณากรอกชื่อและราคาให้ถูกต้อง')
+  if (!form.name || form.price < 0) return alert('กรุณากรอกข้อมูลให้ถูกต้อง')
 
   if (isEditMode.value && editingId.value !== null) {
     productStore.updateProduct(editingId.value, { ...form, id: editingId.value })
@@ -53,7 +53,6 @@ const handleFileUpload = (event: Event) => {
     const reader = new FileReader()
     reader.onload = (e) => {
       form.image = e.target?.result as string
-      form.image = e.target?.result as string
     }
     reader.readAsDataURL(file)
   }
@@ -71,15 +70,15 @@ const closeModal = () => {
 </script>
 
 <template>
-  <div class="space-y-6 animate-fade-in">
-    <div class="flex justify-between items-center">
+  <div class="space-y-6 animate-fade-in pb-20 md:pb-0">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div>
-        <h1 class="text-2xl font-bold text-gray-800">จัดการสินค้า (Product Management)</h1>
+        <h1 class="text-2xl font-bold text-gray-800">จัดการสินค้า</h1>
         <p class="text-gray-500 text-sm">รายการสินค้าทั้งหมดในระบบ</p>
       </div>
       <button 
         @click="openAddModal"
-        class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 shadow-sm transition-colors"
+        class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center justify-center space-x-2 shadow-sm transition-colors"
       >
         <Plus :size="18" />
         <span>เพิ่มสินค้า</span>
@@ -88,20 +87,20 @@ const closeModal = () => {
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div class="p-4 border-b border-gray-100 bg-gray-50/50">
-        <div class="relative max-w-sm">
+        <div class="relative w-full md:max-w-sm">
           <Search class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <input type="text" placeholder="ค้นหาสินค้า..." class="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
         </div>
       </div>
 
       <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
+        <table class="w-full text-left border-collapse min-w-[800px]">
           <thead class="bg-gray-50 text-gray-600 text-xs uppercase font-semibold">
             <tr>
               <th class="p-4 w-20">รูปภาพ</th>
               <th class="p-4">ชื่อสินค้า</th>
               <th class="p-4">ราคา</th>
-              <th class="p-4">สต็อก</th>
+              <th class="p-4">คงเหลือ</th>
               <th class="p-4">สถานะ</th>
               <th class="p-4 text-right">จัดการ</th>
             </tr>
@@ -127,7 +126,9 @@ const closeModal = () => {
               <td class="p-4">
                 <div class="flex items-center space-x-2">
                   <div class="w-2 h-2 rounded-full" :class="product.status === 'Active' ? 'bg-green-500' : 'bg-gray-400'"></div>
-                  <span :class="product.status === 'Active' ? 'text-green-700' : 'text-gray-500'">{{ product.status }}</span>
+                  <span :class="product.status === 'Active' ? 'text-green-700' : 'text-gray-500'">
+                    {{ product.status === 'Active' ? 'เปิดขาย' : 'ปิดการขาย' }}
+                  </span>
                 </div>
               </td>
               <td class="p-4 text-right space-x-2">
@@ -149,9 +150,9 @@ const closeModal = () => {
       </div>
     </div>
 
-    <div v-if="isModalOpen" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm p-4">
-      <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl transform transition-all animate-fade-in-up">
-        <div class="flex justify-between items-center p-6 border-b border-gray-100">
+    <div v-if="isModalOpen" class="fixed inset-0 bg-black/50 flex items-end md:items-center justify-center z-50 backdrop-blur-sm p-0 md:p-4 overflow-y-auto">
+      <div class="bg-white rounded-t-2xl md:rounded-2xl w-full md:max-w-lg shadow-2xl transform transition-all animate-fade-in-up max-h-[90vh] md:max-h-none flex flex-col">
+        <div class="flex justify-between items-center p-6 border-b border-gray-100 shrink-0">
           <h3 class="text-xl font-bold text-gray-800">
             {{ isEditMode ? '✏️ แก้ไขสินค้า' : '✨ เพิ่มสินค้าใหม่' }}
           </h3>
@@ -160,21 +161,21 @@ const closeModal = () => {
           </button>
         </div>
 
-        <div class="p-6 space-y-4">
+        <div class="p-6 space-y-4 overflow-y-auto">
           <div class="flex flex-col items-center justify-center space-y-2 mb-4">
             <div class="w-24 h-24 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center relative overflow-hidden group hover:border-indigo-500 transition-colors cursor-pointer">
               <img v-if="form.image && form.image.length > 10" :src="form.image" class="w-full h-full object-cover" />
               <div v-else class="text-gray-400 flex flex-col items-center">
                 <ImageIcon :size="24" />
-                <span class="text-[10px] mt-1">Upload</span>
+                <span class="text-[10px] mt-1">อัปโหลด</span>
               </div>
               <input type="file" @change="handleFileUpload" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" />
             </div>
             <p class="text-xs text-gray-400">คลิกเพื่ออัปโหลดรูปภาพสินค้า</p>
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
-            <div class="col-span-2">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="col-span-1 md:col-span-2">
               <label class="block text-sm font-medium text-gray-700 mb-1">ชื่อสินค้า</label>
               <input v-model="form.name" type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="เช่น หูฟังไร้สาย..." />
             </div>
@@ -189,7 +190,7 @@ const closeModal = () => {
               <input v-model.number="form.stock" type="number" min="0" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" />
             </div>
 
-            <div class="col-span-2">
+            <div class="col-span-1 md:col-span-2">
               <label class="block text-sm font-medium text-gray-700 mb-1">สถานะ</label>
               <select v-model="form.status" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none bg-white">
                 <option value="Active">🟢 เปิดขาย (Active)</option>
@@ -199,7 +200,7 @@ const closeModal = () => {
           </div>
         </div>
 
-        <div class="p-6 border-t border-gray-100 flex justify-end space-x-3 bg-gray-50 rounded-b-2xl">
+        <div class="p-6 border-t border-gray-100 flex justify-end space-x-3 bg-gray-50 rounded-b-2xl shrink-0 safe-area-pb">
           <button @click="closeModal" class="px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors font-medium">ยกเลิก</button>
           <button @click="handleSave" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-lg shadow-indigo-200 transition-all font-bold">
             บันทึกข้อมูล
@@ -209,3 +210,9 @@ const closeModal = () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom, 24px);
+}
+</style>

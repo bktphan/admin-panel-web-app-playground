@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useShopStore } from '~/stores/shop'
-import { Palette, LayoutTemplate, RotateCcw, Smartphone, Monitor } from 'lucide-vue-next'
+import { Palette, RotateCcw, Smartphone, Monitor } from 'lucide-vue-next'
 
 const shopStore = useShopStore()
 
@@ -17,9 +17,9 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
 </script>
 
 <template>
-  <div class="h-[calc(100vh-6rem)] flex flex-col xl:flex-row gap-6 animate-fade-in">
+  <div class="flex flex-col xl:flex-row gap-6 animate-fade-in xl:h-[calc(100vh-6rem)] h-auto pb-8">
     
-    <div class="w-full xl:w-1/3 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden">
+    <div class="w-full xl:w-1/3 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden shrink-0">
       <div class="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
         <div class="flex items-center space-x-2 text-gray-800">
           <Palette :size="20" class="text-indigo-600" />
@@ -30,13 +30,13 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
           class="text-xs flex items-center space-x-1 text-gray-500 hover:text-red-500 transition-colors"
         >
           <RotateCcw :size="14" />
-          <span>รีเซ็ต</span>
+          <span>รีเซ็ตค่าเริ่มต้น</span>
         </button>
       </div>
 
-      <div class="p-6 space-y-6 overflow-y-auto flex-1">
+      <div class="p-6 space-y-6 overflow-y-auto flex-1 max-h-[400px] xl:max-h-none">
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-gray-700">ชื่อร้านค้า (Shop Name)</label>
+          <label class="text-sm font-semibold text-gray-700">ชื่อร้านค้า</label>
           <input 
             v-model="shopStore.config.shopName" 
             type="text" 
@@ -46,7 +46,7 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
         </div>
 
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-gray-700">ข้อความต้อนรับ (Welcome Message)</label>
+          <label class="text-sm font-semibold text-gray-700">ข้อความต้อนรับ</label>
           <textarea 
             v-model="shopStore.config.welcomeText" 
             rows="3"
@@ -56,7 +56,7 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
         </div>
 
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-gray-700">อีเมลติดต่อ (Contact Email)</label>
+          <label class="text-sm font-semibold text-gray-700">อีเมลติดต่อ</label>
           <input 
             v-model="shopStore.config.contactEmail" 
             type="email" 
@@ -65,7 +65,7 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
         </div>
 
         <div class="space-y-3">
-          <label class="text-sm font-semibold text-gray-700">เลือกสีธีม (Theme Color)</label>
+          <label class="text-sm font-semibold text-gray-700">เลือกสีธีม</label>
           <div class="flex flex-wrap gap-3">
             <button 
               v-for="color in colorPresets" 
@@ -92,13 +92,13 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
       </div>
     </div>
 
-    <div class="w-full xl:w-2/3 bg-gray-100 rounded-xl border border-gray-300 shadow-inner p-8 relative flex flex-col items-center justify-center min-h-[500px]">
-      <div class="absolute top-4 right-4 bg-gray-800/80 text-white text-xs px-3 py-1.5 rounded-full font-medium backdrop-blur-sm flex items-center space-x-2">
+    <div class="w-full xl:w-2/3 bg-gray-100 rounded-xl border border-gray-300 shadow-inner p-4 md:p-8 relative flex flex-col items-center justify-center min-h-[600px] xl:min-h-0">
+      <div class="absolute top-4 right-4 bg-gray-800/80 text-white text-xs px-3 py-1.5 rounded-full font-medium backdrop-blur-sm flex items-center space-x-2 z-10">
         <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-        <span>Live Preview</span>
+        <span>ตัวอย่างหน้าเว็บ</span>
       </div>
 
-      <div class="absolute top-4 left-4 bg-white rounded-lg shadow-sm border border-gray-200 p-1 flex space-x-1">
+      <div class="absolute top-4 left-4 bg-white rounded-lg shadow-sm border border-gray-200 p-1 flex space-x-1 z-10">
         <button 
           @click="previewMode = 'mobile'"
           class="p-2 rounded transition-colors"
@@ -116,8 +116,8 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
       </div>
 
       <div 
-        class="bg-white shadow-2xl overflow-hidden transition-all duration-500 ease-in-out border-8 border-gray-800 relative"
-        :class="previewMode === 'mobile' ? 'w-[375px] h-[667px] rounded-[3rem]' : 'w-full h-full max-h-[600px] rounded-xl'"
+        class="bg-white shadow-2xl overflow-hidden transition-all duration-500 ease-in-out border-8 border-gray-800 relative max-w-full"
+        :class="previewMode === 'mobile' ? 'w-[320px] md:w-[375px] h-[600px] md:h-[667px] rounded-[3rem]' : 'w-full h-[400px] xl:h-full rounded-xl'"
       >
         <div v-if="previewMode === 'mobile'" class="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-800 rounded-b-xl z-20"></div>
 
@@ -141,7 +141,7 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
                 <div class="absolute bottom-10 right-10 w-20 h-20 rounded-full bg-white"></div>
              </div>
              
-             <h1 class="text-2xl font-bold drop-shadow-md z-10">{{ shopStore.config.shopName }}</h1>
+             <h1 class="text-2xl font-bold drop-shadow-md z-10 break-words max-w-full">{{ shopStore.config.shopName }}</h1>
              <p class="mt-2 text-sm opacity-90 z-10 max-w-xs">{{ shopStore.config.welcomeText }}</p>
           </div>
 
@@ -173,7 +173,7 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
 
           <div class="p-6 bg-gray-800 text-gray-400 text-xs text-center mt-4">
             <p>© 2024 {{ shopStore.config.shopName }}</p>
-            <p class="mt-1">Email: {{ shopStore.config.contactEmail }}</p>
+            <p class="mt-1">อีเมล: {{ shopStore.config.contactEmail }}</p>
           </div>
         </div>
       </div>
