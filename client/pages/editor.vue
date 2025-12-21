@@ -23,40 +23,40 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
       <div class="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
         <div class="flex items-center space-x-2 text-gray-800">
           <Palette :size="20" class="text-indigo-600" />
-          <h2 class="font-bold text-lg">ตกแต่งหน้าร้าน</h2>
+          <h2 class="font-bold text-lg">Shop Decoration</h2>
         </div>
         <button 
           @click="shopStore.resetConfig"
           class="text-xs flex items-center space-x-1 text-gray-500 hover:text-red-500 transition-colors"
         >
           <RotateCcw :size="14" />
-          <span>รีเซ็ตค่าเริ่มต้น</span>
+          <span>Reset to Default</span>
         </button>
       </div>
 
       <div class="p-6 space-y-6 overflow-y-auto flex-1 max-h-[400px] xl:max-h-none">
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-gray-700">ชื่อร้านค้า</label>
+          <label class="text-sm font-semibold text-gray-700">Shop Name</label>
           <input 
             v-model="shopStore.config.shopName" 
             type="text" 
             class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
-            placeholder="ตั้งชื่อร้านเท่ๆ ของคุณ"
+            placeholder="Enter cool shop name"
           />
         </div>
 
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-gray-700">ข้อความต้อนรับ</label>
+          <label class="text-sm font-semibold text-gray-700">Welcome Message</label>
           <textarea 
             v-model="shopStore.config.welcomeText" 
             rows="3"
             class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-all resize-none"
-            placeholder="เขียนคำทักทายลูกค้า..."
+            placeholder="Write a greeting message..."
           ></textarea>
         </div>
 
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-gray-700">อีเมลติดต่อ</label>
+          <label class="text-sm font-semibold text-gray-700">Contact Email</label>
           <input 
             v-model="shopStore.config.contactEmail" 
             type="email" 
@@ -65,7 +65,7 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
         </div>
 
         <div class="space-y-3">
-          <label class="text-sm font-semibold text-gray-700">เลือกสีธีม</label>
+          <label class="text-sm font-semibold text-gray-700">Theme Color</label>
           <div class="flex flex-wrap gap-3">
             <button 
               v-for="color in colorPresets" 
@@ -83,11 +83,11 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
                  type="color" 
                  v-model="shopStore.config.themeColor"
                  class="absolute inset-0 w-[150%] h-[150%] -top-1/4 -left-1/4 cursor-pointer p-0 border-0"
-                 title="เลือกสีเอง"
+                 title="Custom Color"
                />
              </div>
           </div>
-          <p class="text-xs text-gray-400">ลองคลิกเปลี่ยนสี แล้วดูผลลัพธ์ทันที 👉</p>
+          <p class="text-xs text-gray-400">Click to change color and see result instantly 👉</p>
         </div>
       </div>
     </div>
@@ -95,7 +95,7 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
     <div class="w-full xl:w-2/3 bg-gray-100 rounded-xl border border-gray-300 shadow-inner p-4 md:p-8 relative flex flex-col items-center justify-center min-h-[600px] xl:min-h-0">
       <div class="absolute top-4 right-4 bg-gray-800/80 text-white text-xs px-3 py-1.5 rounded-full font-medium backdrop-blur-sm flex items-center space-x-2 z-10">
         <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-        <span>ตัวอย่างหน้าเว็บ</span>
+        <span>Live Preview</span>
       </div>
 
       <div class="absolute top-4 left-4 bg-white rounded-lg shadow-sm border border-gray-200 p-1 flex space-x-1 z-10">
@@ -146,7 +146,7 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
           </div>
 
           <div class="p-4">
-            <h3 class="font-bold text-gray-800 mb-4 text-sm uppercase tracking-wider">สินค้าแนะนำ</h3>
+            <h3 class="font-bold text-gray-800 mb-4 text-sm uppercase tracking-wider">Recommended Products</h3>
             <div class="grid grid-cols-2 gap-3">
               <div v-for="i in 4" :key="i" class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 group">
                 <div class="aspect-square bg-gray-100 rounded-lg mb-2 flex items-center justify-center text-2xl group-hover:scale-105 transition-transform duration-300">
@@ -173,7 +173,7 @@ const previewMode = ref<'mobile' | 'desktop'>('mobile')
 
           <div class="p-6 bg-gray-800 text-gray-400 text-xs text-center mt-4">
             <p>© 2024 {{ shopStore.config.shopName }}</p>
-            <p class="mt-1">อีเมล: {{ shopStore.config.contactEmail }}</p>
+            <p class="mt-1">Email: {{ shopStore.config.contactEmail }}</p>
           </div>
         </div>
       </div>
