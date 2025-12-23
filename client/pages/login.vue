@@ -24,8 +24,7 @@ const handleLogin = () => {
   <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
       <div class="text-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Shop Admin Login 🛍️</h1>
-        <p class="text-gray-500 text-sm">Welcome back! Please enter your details.</p>
+        <h1 class="text-2xl font-bold text-gray-800">Shop Admin Login</h1>
       </div>
 
       <form @submit.prevent="handleLogin" class="space-y-4">
